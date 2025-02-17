@@ -26,7 +26,7 @@ document.getElementById('signupForm').addEventListener('submit', function (event
     .then(data => {
         alert(data.message);  // Show success or error message
         if (data.message === 'Account created successfully!') {
-            window.location.href = '/login';  // Redirect to login page after successful signup
+            window.location.href = '/login.html';  // Redirect to login page after successful signup
         }
     })
     .catch(error => {
@@ -66,7 +66,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
 });
 
 // Donor registration form submission
-function submitDonorForm(event) {
+document.getElementById('donorForm').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const donorData = {
@@ -89,15 +89,17 @@ function submitDonorForm(event) {
     .then(response => response.json())
     .then(data => {
         alert(data.message);  // Show success message
+        // Optionally, redirect after success (e.g., to donor profile or home page)
+        // window.location.href = '/somePage';  
     })
     .catch(error => {
         console.error('Error registering donor:', error);
         alert('Error registering donor');
     });
-}
+});
 
 // Donor search form submission
-function searchDonors(event) {
+document.getElementById('donorSearchForm').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const bloodGroup = document.getElementById('searchBloodGroup').value;
@@ -115,10 +117,10 @@ function searchDonors(event) {
             data.forEach(donor => {
                 const donorDiv = document.createElement('div');
                 donorDiv.innerHTML = `
-                    <p>Name: ${donor.name}</p>
-                    <p>Age: ${donor.age}</p>
-                    <p>Blood Group: ${donor.blood_group}</p>
-                    <p>Location: ${donor.location}</p>
+                    <p><strong>Name:</strong> ${donor.name}</p>
+                    <p><strong>Age:</strong> ${donor.age}</p>
+                    <p><strong>Blood Group:</strong> ${donor.blood_group}</p>
+                    <p><strong>Location:</strong> ${donor.location}</p>
                 `;
                 searchResultsDiv.appendChild(donorDiv);
             });
@@ -128,4 +130,4 @@ function searchDonors(event) {
         console.error('Error searching donors:', error);
         alert('Error fetching donors');
     });
-}
+});

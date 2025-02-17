@@ -2,27 +2,41 @@
 const express = require('express');
 const session = require('express-session');
 const mysql = require('mysql2');
+const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const fs = require('fs');
+
 // Create an Express app
 const app = express();
 const port = 3000;
 
 // MySQL Database connection
 const db = mysql.createConnection({
-    host: 'db',
-    user: 'root', // replace with your MySQL username
-    password: 'root', // replace with your MySQL password
+    host: 'db', // Your MySQL host
+    user: 'root', // MySQL username
+    password: 'root', // MySQL password
     database: 'blood_donation',
 });
+
+// Path to the SQL schema file
 const schemaFilePath = './database/schema.sql';
+
+// Middleware for sessions
 app.use(session({
     secret: 'your-secret-key', // Replace with a strong secret key
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }  // set to true in production if using HTTPS
+    cookie: { secure: false }  // Set to true in production if using HTTPS
 }));
 
+// Middleware for parsing form data
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// Serve static files (like your HTML, CSS, JS, etc.)
+app.use(express.static('assets'));
+
+// Read and execute the SQL schema to create tables (if necessary)
 fs.readFile(schemaFilePath, 'utf8', (err, data) => {
     if (err) {
         console.error('Error reading the schema file:', err);
@@ -38,6 +52,7 @@ fs.readFile(schemaFilePath, 'utf8', (err, data) => {
         console.log('Database schema created successfully');
     });
 });
+
 // Connect to the database
 db.connect((err) => {
     if (err) {
@@ -46,25 +61,13 @@ db.connect((err) => {
     }
     console.log('Connected to the MySQL database!');
 });
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 
-// Set up session
-app.use(session({
-    secret: 'secretkey', // change this to a secret string
-    resave: false,
-    saveUninitialized: true,
-}));
-
-// Serve static files (like your HTML, CSS, JS, etc.)
-app.use(express.static('assets'));
-
-// Route to serve signup page
+// Serve the signup page
 app.get('/signup', (req, res) => {
     res.sendFile(__dirname + '/views/signup.html');
 });
 
-// Route to handle Signup (POST)
+// Handle Signup (POST)
 app.post('/signup', async (req, res) => {
     const { name, email, password, confirmPassword } = req.body;
 
@@ -92,8 +95,8 @@ app.post('/signup', async (req, res) => {
     }
 });
 
-// Route to handle Login (POST)
-app.post('/login', (req, res) => {
+// Handle Login (POST)
+app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
     // Query to get user details from the database
@@ -123,28 +126,7 @@ app.post('/login', (req, res) => {
     });
 });
 
-// Route to check if user is logged in
-app.get('/profile', (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).send({ message: 'You are not logged in' });
-    }
-
-    res.status(200).send({ message: 'Welcome to your profile', user: req.session.user });
-});
-
-// Set up middlewares
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-// Serve static files (like your HTML, CSS, JS, etc.)
-app.use(express.static('assets'));
-
-// Home Route
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/views/home.html');
-});
-
-// Route to handle Donor Registration (POST)
+// Handle Donor Registration (POST)
 app.post('/donor/register', (req, res) => {
     const { name, age, gender, phone, dob, bloodGroup, location } = req.body;
 
@@ -160,7 +142,7 @@ app.post('/donor/register', (req, res) => {
     });
 });
 
-// Route to handle Donor Search (GET)
+// Handle Donor Search (GET)
 app.get('/donor/search', (req, res) => {
     const { bloodGroup, location } = req.query;
 
@@ -173,6 +155,11 @@ app.get('/donor/search', (req, res) => {
         }
         res.json(results); // Return donors as JSON
     });
+});
+
+// Home Route
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/views/home.html');
 });
 
 // Start the server
