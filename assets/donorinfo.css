@@ -1,0 +1,276 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* Navigation Bar */
+nav {
+    background-color: #e74c3c;
+    padding: 10px 20px; /* Decreased padding for a more compact navbar */
+    display: flex;
+    justify-content: space-between; /* Space between logo + text and navigation links */
+    align-items: center; /* Vertically center the items */
+    color: #fff;
+}
+
+nav .logo-container {
+    display: flex;
+    align-items: center;
+}
+
+nav img {
+    height: 40px; /* Adjust logo size */
+    width: auto;
+    margin-right: 10px; /* Add space between logo and text */
+}
+
+nav h1 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Navigation Links */
+nav ul {
+    list-style-type: none;
+    display: flex;
+    margin-left: auto; /* Align nav links to the right */
+}
+
+nav ul li {
+    margin: 0 15px; /* Reduced spacing between items */
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px; /* Reduced font size for nav links */
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 2.5em;
+    color: #2c3e50;
+}
+
+/* Content Wrapper */
+.content {
+    width: 80%;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Donor List */
+.donor-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.donor-item {
+    background-color: #ecf0f1;
+    padding: 20px;
+    margin: 10px;
+    width: 30%;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.donor-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.donor-item p {
+    margin-bottom: 12px;
+    font-size: 16px;
+}
+
+/* Donor Item Title */
+.donor-item strong {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* Border Styling */
+hr {
+    border: 0;
+    border-top: 2px solid #ddd;
+    margin: 20px 0;
+}
+
+/* Buttons */
+button {
+    background-color: #27ae60;
+    color: #fff;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2ecc71;
+}
+
+/* Responsive Design for Tablets and Small Devices (Max Width 768px) */
+@media (max-width: 768px) {
+
+    /* Make the donor item take up full width on smaller screens */
+    .donor-item {
+        width: 100%;
+        margin-bottom: 20px; /* Added space between donor items */
+        box-sizing: border-box; /* Ensure padding and border are included in the width */
+    }
+
+    /* Adjust navigation list items to stack vertically */
+    nav ul li {
+        display: block;
+        margin: 10px 0; /* Add spacing between list items */
+    }
+
+    /* Adjust heading size in the navigation */
+    nav h1 {
+        font-size: 1.5em; /* Adjust heading size for better readability */
+        text-align: center; /* Center-align heading for better presentation */
+    }
+
+    /* Adjust logo size for mobile view */
+    nav img {
+        height: 40px; /* Increased size slightly for better visibility */
+        width: auto; /* Maintain aspect ratio */
+        margin: 10px auto; /* Center the logo horizontally */
+        display: block; /* Ensure the logo is displayed as a block element */
+    }
+
+    /* Improve mobile navigation bar layout */
+    nav {
+        padding: 10px; /* Add padding to make navigation more spacious */
+    }
+
+    /* Ensure links in navigation are easily clickable */
+    nav ul li a {
+        font-size: 1.2em; /* Increase font size for better readability */
+        padding: 8px 0; /* Added padding to increase click area */
+        text-align: center; /* Center-align text */
+    }
+
+    /* Make sure the donor-item content (e.g., images, text) looks good on smaller screens */
+    .donor-item img {
+        width: 100%; /* Ensure images are responsive and fit the container */
+        height: auto; /* Maintain aspect ratio of images */
+        margin-bottom: 15px; /* Space below images */
+    }
+
+    .donor-item .description {
+        font-size: 1em; /* Adjust description text size */
+        line-height: 1.5; /* Improved readability by adjusting line height */
+    }
+
+    /* Spacing and padding adjustments for mobile */
+    .donor-item .info {
+        padding: 10px;
+        font-size: 1.1em; /* Make text a bit larger for mobile users */
+    }
+}
+
+/* Further Responsive Adjustments for Phones (Max Width 480px) */
+@media (max-width: 480px) {
+
+    /* Donor item adjustment for smaller screens */
+    .donor-item {
+        width: 100%;
+        margin-bottom: 15px; /* Reduce margin between items */
+    }
+
+    /* Navigation bar adjustments for small screens */
+    nav h1 {
+        font-size: 1.3em; /* Adjust heading size for small screens */
+    }
+
+    nav img {
+        height: 35px; /* Further reduce logo size for smaller screens */
+        margin: 5px auto; /* Reduced margin for tighter layout */
+    }
+
+    /* Navigation links */
+    nav ul li a {
+        font-size: 1.1em; /* Slightly reduce font size for navigation items */
+        padding: 10px 0; /* Added padding to increase touch target */
+    }
+
+    /* Make the donor-item text more readable on smaller screens */
+    .donor-item .description {
+        font-size: 0.95em; /* Slightly reduce font size to fit better */
+    }
+
+    /* Spacing between items */
+    .donor-item .info {
+        font-size: 1em;
+        padding: 8px; /* Reduce padding for a tighter layout */
+    }
+
+    /* Make sure the images in donor-item fit well */
+    .donor-item img {
+        width: 100%; /* Ensure images take full width */
+        height: auto;
+        margin-bottom: 10px;
+    }
+}
+
+/* Adjustments for Ultra-Small Devices (Max Width 375px) */
+@media (max-width: 375px) {
+
+    /* Reduce font size for navigation heading */
+    nav h1 {
+        font-size: 1.2em; /* Smaller heading for very small screens */
+    }
+
+    /* Make logo even smaller on ultra-small screens */
+    nav img {
+        height: 30px; /* Further reduce logo size */
+    }
+
+    /* Adjust layout for donor item */
+    .donor-item {
+        margin-bottom: 10px; /* Reduce spacing for tighter layout */
+    }
+
+    .donor-item .description {
+        font-size: 0.9em; /* Smaller text for ultra-small screens */
+    }
+
+    /* Adjust navigation links for better usability */
+    nav ul li a {
+        font-size: 1em; /* Reduce font size slightly for small screens */
+        padding: 8px 0; /* Added padding for easier touch interaction */
+    }
+
+    /* Adjust the content inside donor-item */
+    .donor-item .info {
+        font-size: 0.9em; /* Reduce font size inside donor item for small screens */
+        padding: 6px; /* Adjust padding for better fit */
+    }
+}
+

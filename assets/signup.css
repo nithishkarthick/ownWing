@@ -1,0 +1,228 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url("backimg.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Logo Section */
+.logo {
+    height: 100px;
+    width: 200px;
+    background-size: contain;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: none;
+}
+
+img {
+    height: 100px;
+    width: 100px;
+    background-size: contain;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: none;
+}
+
+h2 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 30px;
+    color: #e74c3c;
+    margin-top: 10px;
+}
+
+/* Main Content */
+.content {
+    height: 100vh;
+    display: flex;
+    justify-content: flex-end; /* Align to the right */
+    align-items: center;
+    padding-right: 30px; /* Add space to the right */
+    color: rgb(3, 3, 3);
+}
+
+#signupForm{
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgb(0, 0, 0);
+    width: 300px;
+    height: 600px; /* Adjusted height for better appearance */
+    background-color: skyblue;
+    padding: 20px;
+    margin-top: 600px;
+    margin-left: 800px;
+}
+
+/* Form Heading */
+.content h2 {
+    text-align: center;
+    font-size: 2em;
+    color: #000000;
+    margin-bottom: 20px;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    margin-top: 5px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline-color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+/* Button Styling */
+button {
+    width: 100%;
+    background-color: #e74c3c;
+    color: white;
+    padding: 15px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #c0392b;
+}
+
+/* Responsive Design for Tablets and Smaller Devices */
+@media (max-width: 768px) {
+
+    .logo img {
+        width: 120px; /* Slightly smaller logo on tablets */
+    }
+
+    h2 {
+        font-size: 20px; /* Adjust heading size for better readability */
+    }
+
+    .content {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 15px; /* Reduced margin between form elements */
+    }
+
+    .form-group input {
+        padding: 12px;
+        font-size: 1.1em; /* Slightly larger font size for inputs */
+    }
+
+    button {
+        padding: 14px;
+        font-size: 1.2em; /* Larger button font for easier clicking */
+    }
+}
+
+/* Responsive Design for Mobile Phones (Max Width 480px) */
+@media (max-width: 480px) {
+
+    .logo img {
+        width: 100px; /* Even smaller logo on mobile */
+    }
+
+    h2 {
+        font-size: 18px; /* Reduce heading size for mobile */
+    }
+
+    .content {
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-group input {
+        padding: 10px;
+        font-size: 1em; /* Adjust font size for mobile */
+    }
+
+    button {
+        padding: 14px;
+        font-size: 1.2em; /* Make button more touch-friendly */
+    }
+
+    /* Make form elements more compact */
+    .form-group label {
+        font-size: 1em;
+    }
+
+    .content h2 {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+}
+
+/* Responsive Design for Ultra-Small Devices (<375px) */
+@media (max-width: 375px) {
+
+    .logo img {
+        width: 80px; /* Logo size for very small devices */
+    }
+
+    h2 {
+        font-size: 16px; /* Smaller heading for ultra-small screens */
+    }
+
+    .content {
+        margin: 5px;
+        padding: 8px;
+    }
+
+    .form-group {
+        margin-bottom: 10px; /* Reduced margin for ultra-small screens */
+    }
+
+    .form-group input {
+        padding: 8px;
+        font-size: 0.95em; /* Smaller font for input fields */
+    }
+
+    button {
+        padding: 12px;
+        font-size: 1em; /* Smaller button size */
+    }
+}

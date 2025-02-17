@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation</title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+    <!-- Background Video -->
+    <video class="background-video" autoplay muted loop playsinline>
+        <source src="assets/40781-426939561 (1).mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li>
+                <img src="assets/logo.png" alt="">
+                <h1>NEED BLOOD</h1>
+            </li>
+            
+            <li><a href="home.html">Home</a></li>
+            <li><a href="signup.html">Sign Up</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="donor-list.html">Donor List</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="welcome-message">
+            <h1>Welcome to the Need Blood Platform</h1>
+            <p>Thank you for being a part of this noble cause. Together, we can save lives!</p>
+        </div>
+
+        <div class="forms-container">
+            <!-- Donor Form -->
+            <div class="donor-form">
+                <h2>Donor Registration</h2>
+                <form id="donorForm" onsubmit="submitDonorForm(event)">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age:</label>
+                        <input type="number" id="age" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select id="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Date of Birth:</label>
+                        <input type="date" id="dob" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bloodGroup">Blood Group:</label>
+                        <select id="bloodGroup" required>
+                            <option value="">Select Blood Group</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location:</label>
+                        <input type="text" id="location" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Register as Donor</button>
+                </form>
+            </div>
+
+            <!-- Search Form -->
+            <div class="search-form">
+                <h2>Search Donor</h2>
+                <form id="searchForm" onsubmit="searchDonors(event)">
+                    <div class="form-group">
+                        <label for="searchBloodGroup">Blood Group:</label>
+                        <select id="searchBloodGroup" required>
+                            <option value="">Select Blood Group</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="searchLocation">Location:</label>
+                        <input type="text" id="searchLocation" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Search Donors</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="search-results" id="searchResults"></div>
+
+        <div class="buttons">
+        </div>
+    </div>
+
+    <script src="assets/script.js"></script>
+</body>
+</html>

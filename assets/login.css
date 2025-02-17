@@ -1,0 +1,248 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url("backimg.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.logo {
+    height: 100px;
+    width: 200px;
+    background-size: contain;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: none;
+}
+img {
+    height: 100px;
+    width: 100px;
+    background-size: contain;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: none;
+}
+.content {
+    height: 100vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    color: rgb(3, 3, 3);
+    
+}
+.content h2 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 30px;
+    color: #000000;
+    margin-top: 10px;
+    margin-left: 100px;
+}
+#loginForm{
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgb(0, 0, 0);
+    width: 300px;
+    height: 300px;
+    background-color: none;
+    padding: 20px;
+    background-color: rgb(101, 195, 238);
+    margin-bottom:100px;
+    margin-left: 400px;
+}
+.form-group {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 2px;
+    margin-top: 2px;
+    font-weight: bolder;
+}
+.form-group > label {
+    padding: 2px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: larger;
+    font-weight: bolder;
+    color: rgb(0, 0, 0);
+}
+.form-group > input {
+    height: 26px;
+    width: 200px;
+    padding-left: 5px;
+    background-color: white;
+    border: 1px solid rgb(0, 0, 0);
+    color: black;
+}
+button {
+    height: 37px;
+    width: 163px;
+    border-radius: 36px;
+    padding-top: 4px;
+    margin-top: 20px;
+    margin-left: 70px;
+    background-color: rgb(112, 6, 6);
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
+}
+button:hover {
+    background-color: rgb(0, 0, 0);
+}
+a {
+    color: rgb(17, 2, 150);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+h1 {
+    margin-bottom: 10px;
+    text-align: center;
+}
+/* Media Query for Tablets (Max Width 768px) */
+@media (max-width: 768px) {
+
+    .logo img {
+        width: 120px; /* Slightly smaller logo on tablets */
+    }
+
+    h2 {
+        font-size: 35px; /* Adjust heading size for better readability */
+    }
+
+    .content {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 15px; /* Reduced margin between form elements */
+    }
+
+    .form-group input {
+        padding: 12px;
+        font-size: 1.1em; /* Slightly larger font size for inputs */
+    }
+
+    button {
+        padding: 14px;
+        font-size: 1.2em; /* Larger button font for easier clicking */
+    }
+}
+
+/* Responsive Design for Mobile Phones (Max Width 480px) */
+@media (max-width: 480px) {
+
+    .logo img {
+        width: 100px; /* Even smaller logo on mobile */
+    }
+
+    h2 {
+        font-size: 28px; /* Reduce heading size for mobile */
+    }
+
+    .content {
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-group input {
+        padding: 10px;
+        font-size: 1em; /* Adjust font size for mobile */
+    }
+
+    button {
+        padding: 14px;
+        font-size: 1.2em; /* Make button more touch-friendly */
+    }
+
+    /* Make form elements more compact */
+    .form-group label {
+        font-size: 1em;
+    }
+
+    .content h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+}
+
+/* Responsive Design for Ultra-Small Devices (<375px) */
+@media (max-width: 375px) {
+
+    .logo img {
+        width: 80px; /* Logo size for very small devices */
+    }
+
+    h2 {
+        font-size: 22px; /* Smaller heading for ultra-small screens */
+    }
+
+    .content {
+        margin: 5px;
+        padding: 8px;
+    }
+
+    .form-group {
+        margin-bottom: 10px; /* Reduced margin for ultra-small screens */
+    }
+
+    .form-group input {
+        padding: 8px;
+        font-size: 0.95em; /* Smaller font for input fields */
+    }
+
+    button {
+        padding: 12px;
+        font-size: 1em; /* Smaller button size */
+    }
+}
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+/* Form Layout */
+#form {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+/* General Button Styles */
+button {
+    font-size: 1.1em;
+    font-weight: bold;
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
