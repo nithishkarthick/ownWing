@@ -9,7 +9,7 @@ services:
     environment:
       MYSQL_HOST: db  # Reference to the MySQL container
       MYSQL_USER: root  # MySQL username
-      MYSQL_PASSWORD: password  # MySQL password
+      MYSQL_PASSWORD: root  # MySQL password
       MYSQL_DATABASE: blood_donation  # Database name
     depends_on:
       - db  # Ensure the database container starts first
