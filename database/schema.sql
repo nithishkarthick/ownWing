@@ -1,16 +1,19 @@
-CREATE DATABASE blood_donation;
+-- Create database if it doesn't exist
+CREATE DATABASE IF NOT EXISTS blood_donation;
 
+-- Use the database
 USE blood_donation;
 
-CREATE TABLE users (
+-- Create users table
+CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL
 );
 
-
-CREATE TABLE donors (
+-- Create donors table
+CREATE TABLE IF NOT EXISTS donors (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     age INT NOT NULL,

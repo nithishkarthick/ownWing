@@ -1,101 +1,118 @@
-// Import necessary modules
-const express = require('express');
-const session = require('express-session');
-const mysql = require('mysql2');
-const bcrypt = require('bcrypt');
-const bodyParser = require('body-parser');
-const fs = require('fs');
+import express from 'express';
+import mysql from 'mysql2';
+import bcrypt from 'bcrypt';
+import session from 'express-session';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// Create an Express app
+// Get the directory name of the current module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app = express();
 const port = 3000;
 
-// MySQL Database connection
-const db = mysql.createConnection({
-    host: 'db', // Your MySQL host
-    user: 'root', // MySQL username
-    password: 'root', // MySQL password
-    database: 'blood_donation',
-});
+// Middleware to parse incoming JSON data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Path to the SQL schema file
-const schemaFilePath = './database/schema.sql';
+// Serve static files (like HTML, CSS, JS)
+app.use(express.static(path.join(__dirname, 'views')));
 
-// Middleware for sessions
+// Session configuration
 app.use(session({
-    secret: 'your-secret-key', // Replace with a strong secret key
+    secret: 'yourSecretKey', // Change this to a secure string
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }  // Set to true in production if using HTTPS
+    saveUninitialized: true
 }));
 
-// Middleware for parsing form data
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-// Serve static files (like your HTML, CSS, JS, etc.)
-app.use(express.static('assets'));
-
-// Read and execute the SQL schema to create tables (if necessary)
-fs.readFile(schemaFilePath, 'utf8', (err, data) => {
-    if (err) {
-        console.error('Error reading the schema file:', err);
-        return;
-    }
-
-    // Execute the SQL commands in the schema file
-    db.query(data, (err, result) => {
-        if (err) {
-            console.error('Error executing SQL:', err);
-            return;
-        }
-        console.log('Database schema created successfully');
-    });
+// Database connection setup
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'root', // Your DB password
+    database: 'blood_donation' // Your database name
 });
 
 // Connect to the database
-db.connect((err) => {
+db.connect(err => {
     if (err) {
-        console.error('Error connecting to the database: ', err);
+        console.error('Error connecting to the database:', err);
         return;
     }
     console.log('Connected to the MySQL database!');
 });
 
-// Serve the signup page
-app.get('/signup', (req, res) => {
-    res.sendFile(__dirname + '/views/signup.html');
+// Serve home.html as the default page
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
-// Handle Signup (POST)
+// Serve login.html (for login page)
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'login.html'));
+});
+
+// Serve index.html (main page after login)
+app.get('/home', (req, res) => {
+    if (!req.session.user) {
+        return res.redirect('/login'); // Redirect to login if not logged in
+    }
+    res.sendFile(path.join(__dirname, 'views', 'home.html'));
+});
+app.get('/donors', (req, res) => {
+    db.query('SELECT * FROM donors', (err, results) => {
+        if (err) {
+            console.error('Database query failed:', err);
+            return res.status(500).json({ message: 'Error fetching donors' });
+        }
+        res.json(results);
+    });
+});;
+
+
+
+// POST endpoint for signup
 app.post('/signup', async (req, res) => {
     const { name, email, password, confirmPassword } = req.body;
 
-    // Check if passwords match
+    // Basic validation for matching passwords
     if (password !== confirmPassword) {
         return res.status(400).send({ message: 'Passwords do not match' });
     }
 
     try {
-        // Hash the password before storing it
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        // Insert user into the database
-        const query = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
-        db.query(query, [name, email, hashedPassword], (err, results) => {
+        // Check if email already exists in the database
+        const checkQuery = 'SELECT * FROM users WHERE email = ?';
+        db.query(checkQuery, [email], async (err, results) => {
             if (err) {
-                console.error('Error during signup:', err);
+                console.error('Error checking email:', err);
                 return res.status(500).send('Internal Server Error');
             }
-            res.status(201).send({ message: 'Account created successfully!' });
+
+            if (results.length > 0) {
+                return res.status(400).send({ message: 'Email already exists' });
+            }
+
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            const query = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
+            db.query(query, [name, email, hashedPassword], (err, results) => {
+                if (err) {
+                    console.error('Error during signup:', err);
+                    return res.status(500).send('Internal Server Error');
+                }
+                // Redirect to login page after successful signup
+                res.redirect('/login');
+            });
         });
     } catch (error) {
         console.error('Error hashing password:', error);
-        res.status(500).send({ message: 'Error creating account' });
+        res.status(500).send({ message: 'Internal Server Error' });
     }
 });
 
-// Handle Login (POST)
+// POST endpoint for login
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -103,8 +120,8 @@ app.post('/login', async (req, res) => {
     const query = 'SELECT * FROM users WHERE email = ?';
     db.query(query, [email], async (err, results) => {
         if (err) {
-            console.error('Error during login:', err);
-            return res.status(500).send('Internal Server Error');
+            console.error('Error during login:', err); // Log the actual error
+            return res.status(500).send('Internal Server Error');  // Send 500 response
         }
 
         if (results.length === 0) {
@@ -122,47 +139,57 @@ app.post('/login', async (req, res) => {
         // Store user data in session (for login persistence)
         req.session.user = user;
 
-        res.status(200).send({ message: 'Login successful', user });
+        // Redirect to index page after successful login
+        res.status(200).send({ message: 'Login successful' });  // Ensure correct success response
     });
 });
-
-// Handle Donor Registration (POST)
 app.post('/donor/register', (req, res) => {
-    const { name, age, gender, phone, dob, bloodGroup, location } = req.body;
+    const { name, age, gender, phone, dob, blood_group, location } = req.body;
 
-    const query = `INSERT INTO donors (name, age, gender, phone, dob, blood_group, location)
-                   VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    console.log(req.body); // Check the request body
 
-    db.query(query, [name, age, gender, phone, dob, bloodGroup, location], (err, results) => {
+    // Validate the data
+    if (!name || !age || !gender || !phone || !dob || !blood_group || !location) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    const query = `
+        INSERT INTO donors (name, age, gender, phone, dob, blood_group, location)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    `;
+    const values = [name, age, gender, phone, dob, blood_group, location];
+
+    db.query(query, values, (err, result) => {
         if (err) {
-            console.error('Error registering donor:', err);
-            return res.status(500).send('Internal Server Error');
+            console.error('Error inserting donor:', err);
+            return res.status(500).json({ message: 'Error inserting donor' });
         }
-        res.send({ message: 'Donor registered successfully!' });
+
+        res.status(200).json({ message: 'Donor registered successfully!' });
     });
 });
 
-// Handle Donor Search (GET)
-app.get('/donor/search', (req, res) => {
-    const { bloodGroup, location } = req.query;
 
-    const query = `SELECT * FROM donors WHERE blood_group = ? AND location LIKE ?`;
+app.post('/donor/search', (req, res) => {
+    const { bloodGroup, location } = req.body;
 
-    db.query(query, [bloodGroup, `%${location}%`], (err, results) => {
+    // Correct the column name to 'blood_group' as per your database
+    const query = `
+        SELECT * FROM donors
+        WHERE blood_group = ? AND location LIKE ?
+    `;
+    const values = [bloodGroup, `%${location}%`]; // Use '%' for partial match
+
+    db.query(query, values, (err, result) => {
         if (err) {
-            console.error('Error searching for donors:', err);
-            return res.status(500).send('Internal Server Error');
+            console.error('Error searching donors:', err);
+            return res.status(500).json({ message: 'Error searching donors' });
         }
-        res.json(results); // Return donors as JSON
+        res.status(200).json(result); // Send the search results back to the client
     });
-});
-
-// Home Route
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/views/home.html');
 });
 
 // Start the server
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server running at http://localhost:${port}`);
 });

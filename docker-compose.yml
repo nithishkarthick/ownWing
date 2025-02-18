@@ -20,10 +20,11 @@ services:
   db:
     image: mysql:5.7  # Use MySQL version 5.7
     environment:
-      MYSQL_ROOT_PASSWORD: root # Set the root password
+      MYSQL_ROOT_PASSWORD: root  # Set the root password
       MYSQL_DATABASE: blood_donation  # Create the database
     volumes:
       - db_data:/var/lib/mysql  # Persistent data storage
+      - ./Schema.sql:/docker-entrypoint-initdb.d/Schema.sql  # Mount Schema.sql to initialize database
     ports:
       - "3306:3306"  # Expose MySQL port
     networks:
